@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context 
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/util
+                        http://www.springframework.org/schema/util/spring-util.xsd
+                        http://www.springframework.org/schema/tx 
+                        http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop 
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+     
+     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+     	<property name="location" value="jndi.properties"></property>
+     </bean>
+     
+     <bean id="connectionFactory" class="org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory">
+     	<property name="brokerURL" value="${connectionFactory.ConnectionFactory}"></property>
+     </bean>
+     
+     <bean id="queue" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
+     	<constructor-arg value="${queue.queue/request}"></constructor-arg>
+     </bean>
+     
+     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+     	<property name="connectionFactory" ref="connectionFactory"></property>
+     	<property name="defaultDestination" ref="queue"></property>
+     	<property name="messageConverter" ref="messageConverter"></property>
+     </bean>
+     
+     <bean id="messageConverter" class="org.springframework.jms.support.converter.MappingJackson2MessageConverter">
+     	<property name="targetType">
+     		<value type="org.springframework.jms.support.converter.MessageType">TEXT</value>
+     	</property>
+     	<property name="typeIdPropertyName" value="id"></property>
+     </bean>
+     
+    
+</beans>
