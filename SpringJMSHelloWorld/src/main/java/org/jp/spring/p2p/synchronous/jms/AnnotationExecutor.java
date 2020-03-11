@@ -9,10 +9,12 @@ import org.springframework.jms.core.JmsTemplate;
 public class AnnotationExecutor {
 
 	public static void main(String[] args) throws JmsException, JMSException, InterruptedException {
-		
-		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfig.class);
-		JmsTemplate jmsTemplate = applicationContext.getBean(JmsTemplate.class);
-		jmsTemplate.send(s-> s.createTextMessage("hello sir ji"));
-		System.out.println("message sent");
+
+		try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(
+				SpringConfig.class);) {
+			JmsTemplate jmsTemplate = applicationContext.getBean(JmsTemplate.class);
+			jmsTemplate.send(s -> s.createTextMessage("hello sir ji"));
+			System.out.println("message sent");
+		}
 	}
 }
