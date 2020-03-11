@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomMessageListener {
 
-	@JmsListener(destination = "${queue.queue/request}",containerFactory = "myFactory")
+	@JmsListener(destination = "${queue.queue/request}")
 	public void onMessage(Message message) {
 		try {
 			System.out.println("message received : "+message.getBody(String.class));

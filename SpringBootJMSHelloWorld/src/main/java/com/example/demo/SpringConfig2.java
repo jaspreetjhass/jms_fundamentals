@@ -1,14 +1,13 @@
 package com.example.demo;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.Queue;
 
 import org.apache.activemq.artemis.jms.client.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 @Configuration
@@ -24,17 +23,16 @@ public class SpringConfig2 {
 	}
 
 	@Bean
-	public JmsTemplate jmsTemplate(ConnectionFactory connectionFactory, ActiveMQQueue destination) {
+	public JmsTemplate jmsTemplate(ConnectionFactory connectionFactory, Queue destination) {
 		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
 		jmsTemplate.setDefaultDestination(destination);
 		return jmsTemplate;
 	}
 
-
-	@Bean
-	  public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory) {
-	    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-	    factory.setConnectionFactory(connectionFactory);
-	    return factory;
-	  }
+	/*
+	 * @Bean public JmsListenerContainerFactory<?> myFactory(ConnectionFactory
+	 * connectionFactory) { DefaultJmsListenerContainerFactory factory = new
+	 * DefaultJmsListenerContainerFactory();
+	 * factory.setConnectionFactory(connectionFactory); return factory; }
+	 */
 }
